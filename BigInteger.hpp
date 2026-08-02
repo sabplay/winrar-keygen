@@ -1,7 +1,24 @@
 #pragma once
 #include <stddef.h>
 #include <stdint.h>
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4146 4244 4267)
+#endif
 #include <gmp.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
+// MPIR (used by vcpkg x86/x64) provides mpz_*_sx/mpz_*_ux for intmax_t.
+// Standard GMP (used by ARM64 and Linux/macOS) does not; fall back to long variants.
+#ifndef __MPIR_VERSION
+#define mpz_init_set_sx(z, v) mpz_init_set_si((z), static_cast<long>(v))
+#define mpz_init_set_ux(z, v) mpz_init_set_ui((z), static_cast<unsigned long>(v))
+#define mpz_set_sx(z, v)      mpz_set_si((z), static_cast<long>(v))
+#define mpz_set_ux(z, v)      mpz_set_ui((z), static_cast<unsigned long>(v))
+#endif
+
 #include <vector>
 #include <string>
 #include <type_traits>
@@ -60,6 +77,10 @@ public:
         mpz_swap(_Value, Other._Value);
     }
 
+    ~BigInteger() noexcept {
+        mpz_clear(_Value);
+    }
+
     BigInteger& operator=(const BigInteger& Other) noexcept {
         if (this != &Other) {
             mpz_set(_Value, Other._Value);
@@ -70,7 +91,6 @@ public:
     BigInteger& operator=(BigInteger&& Other) noexcept {
         if (this != &Other) {
             mpz_swap(_Value, Other._Value);
-            mpz_clear(Other._Value);
         }
         return *this;
     }
@@ -90,7 +110,7 @@ public:
     }
 
     BigInteger& operator=(const char* lpszValue) noexcept {
-        mpz_init_set_str(_Value, lpszValue, 0);
+        mpz_set_str(_Value, lpszValue, 0);
         return *this;
     }
 
@@ -265,7 +285,7 @@ public:
         return *this;
     }
 
-    BigInteger& Load(bool IsNegative, const std::vector<uint8_t> Buffer, bool UseLittleEndian) noexcept {
+    BigInteger& Load(bool IsNegative, const std::vector<uint8_t>& Buffer, bool UseLittleEndian) noexcept {
         mpz_import(_Value, Buffer.size(), UseLittleEndian ? -1 : 1, sizeof(uint8_t), 0, 0, Buffer.data());
         if (IsNegative)
             mpz_neg(_Value, _Value);
@@ -297,11 +317,11 @@ public:
     }
 
     bool TestBit(size_t i) const noexcept {
-        return mpz_tstbit(_Value, i) != 0;
+        return mpz_tstbit(_Value, static_cast<mp_bitcnt_t>(i)) != 0;
     }
 
     void SetBit(size_t i) noexcept {
-        mpz_setbit(_Value, i);
+        mpz_setbit(_Value, static_cast<mp_bitcnt_t>(i));
     }
 
     std::string ToString(size_t Base, bool LowerCase) const {

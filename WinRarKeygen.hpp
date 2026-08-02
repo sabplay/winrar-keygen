@@ -9,6 +9,12 @@
 #include <string>
 #include <utility>
 
+#ifdef _MSC_VER
+#define BSWAP32(x) _byteswap_ulong(x)
+#else
+#define BSWAP32(x) __builtin_bswap32(x)
+#endif
+
 template<typename __ConfigType>
 class WinRarKeygen {
 public:
@@ -40,7 +46,7 @@ private:
             Sha1Digest = Sha1.Evaluate();
 
             for (unsigned i = 0; i < 5; ++i) {
-                Generator[i + 1] = _byteswap_ulong(reinterpret_cast<uint32_t*>(Sha1Digest.Bytes)[i]);
+                Generator[i + 1] = BSWAP32(reinterpret_cast<uint32_t*>(Sha1Digest.Bytes)[i]);
             }
         } else {
             Generator[1] = 0xeb3eb781;
@@ -59,7 +65,7 @@ private:
             Sha1Digest = Sha1.Evaluate();
 
             RawPrivateKey[i] = static_cast<uint16_t>(
-                _byteswap_ulong(reinterpret_cast<uint32_t*>(Sha1Digest.Bytes)[0])
+                BSWAP32(reinterpret_cast<uint32_t*>(Sha1Digest.Bytes)[0])
             );
         }
 
@@ -94,7 +100,11 @@ private:
     static BigInteger GenerateRandomInteger() {
         uint16_t RawRandomInteger[15];
 
-        srand(static_cast<unsigned int>(time(nullptr)));
+        static bool seeded = false;
+        if (!seeded) {
+            srand(static_cast<unsigned int>(time(nullptr)));
+            seeded = true;
+        }
         for (size_t i = 0; i < 15; ++i) {
             RawRandomInteger[i] = static_cast<uint16_t>(rand());
         }
@@ -108,7 +118,7 @@ private:
         HasherSha1Traits::DigestType Sha1Digest = Sha1.Evaluate();
 
         for (size_t i = 0; i < 5; ++i) {
-            RawHash[i] = _byteswap_ulong(reinterpret_cast<uint32_t*>(Sha1Digest.Bytes)[i]);
+            RawHash[i] = BSWAP32(reinterpret_cast<uint32_t*>(Sha1Digest.Bytes)[i]);
         }
 
         // SHA1("") with all-zeroed initial value
@@ -226,7 +236,7 @@ public:
         CalculateChecksum(RegInfo);
 
         RegInfo.HexData = HelperStringFormat(
-            "%zd%zd%zd%zd%s%s%s%s%010lu",
+            "%zu%zu%zu%zu%s%s%s%s%010lu",
             RegInfo.Items[0].length(),
             RegInfo.Items[1].length(),
             RegInfo.Items[2].length(),

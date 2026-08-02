@@ -11,9 +11,8 @@
   <a href="https://github.com/bitcookies/winrar-keygen/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/bitcookies/winrar-keygen.svg" /></a>
 </p>
 <p align="center">
-  <a href="README.zh-CN.md">简体中文</a> | <a href="README.md">English</a>
+  <a href="README.md">English</a> | <a href="README.zh-CN.md">简体中文</a>
 </p>
-
 
 ## 1. WinRAR是什么？
 
@@ -21,9 +20,9 @@ WinRAR 是一款用于管理压缩包文件的共享软件。其算法由作者�
 
 它可以用来创建或浏览 RAR、ZIP 等众多格式的压缩包。
 
-WinRAR 不是免费软件。如果你想使用它，你应当向 [__RARLAB__](https://www.rarlab.com/) 付费，然后获得一个授权文件 `rarreg.key`。
+WinRAR 不是免费软件。如果你想使用它，你应当向 [**RARLAB**](https://www.rarlab.com/) 付费，然后获得一个授权文件 `rarreg.key`。
 
-这份 repo 将会告诉你 `rarreg.key` 是如何生成的。
+这份 repo 将会告诉你 `"rarreg.key"` 是如何生成的。
 
 ## 2. "rarreg.key"是如何生成的？
 
@@ -36,6 +35,9 @@ WinRAR 不是免费软件。如果你想使用它，你应当向 [__RARLAB__](ht
 + [使用 Github Actions](#4-使用-Github-Actions)
 + [使用 Github Actions with secrets](#5-使用-Github-Actions-with-secrets)
 + [通过 Visual Studio 编译使用](#6-通过-Visual-Studio-编译使用)
++ [通过 Github Action 编译使用](#7-通过-Github-Actions-编译使用)
++ [通过 Cmake 编译使用](#8-通过-Cmake-编译使用)
++ [使用 Windows GUI](#9-使用-Windows-GUI)
 
 ### 3.1 编码说明
 
@@ -59,10 +61,10 @@ WinRAR license 有 `rarreg.key` 和 `rarkey.rar` 两种类型，它们仅在导�
 | <img width="100px" src="assets/file-icon.svg"> | <img width="100px" src="assets/winrar-icon.svg"> |
 |             拖动导入或放于指定位置             |                 双击运行自动导入                 |
 
-如果你无法执行拖动操作，你可以尝试把 `rarreg.key` 放置于以下目录中：
+你可以把 `rarreg.key` 放置于以下目录中：
 
 ```shell
-C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
+%APPDATA%\WinRAR\rarreg.key
 ```
 
 你也可以将 `rarreg.key` 压缩成 `rarkey.rar` 然后双击运行，授权导入将会自动进行。
@@ -74,7 +76,7 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 
 新的 workflow 能很方便的帮助你生成 license，你只需跟随以下步骤即可：
 
-> 你的 `Username` 和 `License Name` 会出现在 actions 的日志中，如果你不想泄露这些信息，请参考 [5. 使用 Github Actions with secrets](#5-使用-Github-Actions-with-secrets)。
+> 你的 `<Username>` 和 `<License Name>` 会出现在 Actions 的日志中，如果你不想泄露这些信息，请参考 [5. 使用 Github Actions with secrets](#5-使用-Github-Actions-with-secrets)。
 
 ### 4.1 Fork
 
@@ -112,8 +114,6 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 
 将 `rarreg_file.zip` 解压缩后会得到 `rarreg.key`，然后拖动导入 WinRAR 即可。你也可以将 `rarreg.key` 压缩成 `rarkey.rar`，然后双击运行，授权导入将会自动进行。
 
-如果你得到的是 key 是无效的，请查看[解决方法](#7-无效的-Key)。
-
 </details>
 
 ## 5. 使用 Github Actions with secrets
@@ -141,7 +141,7 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 
 ### 5.3 创建 secrets
 
-允许 workflows 后，进入 **Settings > Secrets and variables > Actions > New repository secret** 来创建 secrets：
+允许 workflows 后，进入 **Settings > Secrets and variables > Actions > New repository secret** 创建 secrets：
 
 ![Secrets](assets/secrets-light.png#gh-light-mode-only)
 
@@ -187,8 +187,6 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 
 将 `rarreg_file.zip` 解压缩后会得到 `rarreg.7z`，使用你设置的密码进行解压缩获得 `rarreg.key`，然后拖动导入 WinRAR 即可。你也可以将 `rarreg.key` 压缩成 `rarkey.rar`，然后双击运行，授权导入将会自动进行。
 
-如果你得到的是 key 是无效的，请查看[解决方法](#7-无效的-Key)。
-
 </details>
 
 ## 6. 通过 Visual Studio 编译使用
@@ -196,9 +194,7 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 <details>
 <summary>点击展开</summary>
 
-我建议通过 Github Actions 的方法来使用，但是你仍然可以选择自行编译。
-
-如果你不想自行编译，也可以到 [Release](https://github.com/bitcookies/winrar-keygen/releases/) 页面获取对应版本的 `winrar-keygen.exe`。
+如果你不想自行编译，可以到在 [Actions](#7-通过-Github-Actions-编译使用) 中编译，也可以到 [Release](https://github.com/bitcookies/winrar-keygen/releases/) 页面获取对应版本的构建程序。
 
 ### 6.1 前提条件
 
@@ -209,6 +205,7 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
    + `mpir:x86-windows-static`
    + `mpir:x64-windows-static`
    + `mpir:gmp:x64-windows`
+   + `gmp:arm64-windows-static`
 
    你可以通过下的命令来安装：
 
@@ -216,9 +213,10 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
    $ vcpkg install mpir:x86-windows-static
    $ vcpkg install mpir:x64-windows-static
    $ vcpkg install gmp:x64-windows
+   $ vcpkg install gmp:arm64-windows-static
    ```
 
-3. 你的 `vcpkg` 与 __Visual Studio__ 整合了，即你曾成功运行了下面这条命令：
+3. 你的 `vcpkg` 与 **Visual Studio** 整合了，即你曾成功运行了下面这条命令：
 
    ```shell
    $ vcpkg integrate install
@@ -226,9 +224,9 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 
 ### 6.2 编译
 
-1. 在 __Visual Studio__ 中打开这个项目；
-2. 选择 `Release` 配置；
-3. 选择 __生成 > 生成解决方案__。
+1. 在 **Visual Studio** 中打开这个项目；
+2. 选择 **Release** 配置；
+3. 选择 **生成 > 生成解决方案**。
 
 你将在 `bin/` 目录下看到生成的文件。
 
@@ -236,18 +234,39 @@ C:\Users\yourname\AppData\Roaming\WinRAR\rarreg.key
 
 直接在终端执行以下代码，配置两个参数即可生成 `rarreg.key`。
 
+```shell
+Usage:
+  winrar-keygen.exe <Username> <LicenseName> [options]
+  winrar-keygen.exe -v | --version
+  winrar-keygen.exe -h | --help
+
+Options:
+  -e, --encoding <enc>   utf8 (default), ascii, ansi
+  -o, --output <file>    Output file (default: rarreg.key)
+  -a, --activate         Write to %APPDATA%\WinRAR\rarreg.key
+  -t, --text             Print to console only, don't write file
+  -u, --update           Check for updates on GitHub
+  -v, --version          Show version
+  -h, --help             Show this help
+```
+
+#### 参数选项
+
+| 参数                   | 描述                                    |
+| :--------------------- | :-------------------------------------- |
+| `-e, --encoding <enc>` | `utf8` (默认), `ascii`, `ansi`          |
+| `-o, --output <file>`  | Output file path (默认: `rarreg.key`)   |
+| `-a, --activate`       | Write to `%APPDATA%\WinRAR\rarreg.key`  |
+| `-t, --text`           | Print to console only, don't write file |
+| `-u, --update`         | Check for updates on GitHub             |
+| `-v, --version`        | Show version                            |
+| `-h, --help`           | Show help                               |
+
 这里以 `Github` 和 `Single PC usage license` 参数和 ASCII 编码为例：
 
 ```shell
-Usage:
-        winrar-keygen.exe <Username> <License Name>
-
-Example:
-
-        winrar-keygen.exe "Github" "Single PC usage license"
+./winrar-keygen.exe "Github" "Single PC usage license" -t -e ascii
 ```
-
-![Terminal](assets/terminal.png)
 
 现在你可以看到新生成的文件：
 
@@ -265,65 +284,132 @@ dd4ab952600ba16a99236d910bfa995d5f60651ec451f462511507
 5eede7ed46566b10bf033daa6384062b259194b1acbd0378116064
 ```
 
-将生成的信息以 **ASCII 编码** 的文本格式保存为 `rarreg.key`。
+### 6.4 更多示例
 
-### 6.4 支持更多字符
+生成 UTF-8 编码的 license 并直接激活 WinRAR：
 
-除了使用 ASCII 编码，你还可以使用 ANSI 和 UTF8NoBOM 以支持更多字符，但你需要[安装 PowerShell 7.4 及其后续版本](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4)。
-
-例如，用 UTF8NoBOM 编码生成 license：
-
-> `utf8:` 是为了保证在不同语言的 WinRAR 中做到不变的字符表示。
+> UTF-8 编码的 license 将会根据字符自动决定是否添加 `utf8:` 前缀
 
 ```shell
-./winrar-keygen.exe "utf8:简体中文" "license" | Out-File -Encoding UTF8NoBOM rarreg.key
+./winrar-keygen.exe "Github" "Single PC usage license" -a
+```
 
-./winrar-keygen.exe "utf8:Français" "license" | Out-File -Encoding UTF8NoBOM rarreg.key
+生成 ANSI 编码的 license 并生成 license 文件：
 
-./winrar-keygen.exe "utf8:日本語" "license" | Out-File -Encoding UTF8NoBOM rarreg.key
+> ANSI 编码与 Windows 的地区有关，一般当前地区的字符能够正常展示，也会遇到字符乱码问题
 
-./winrar-keygen.exe "utf8:한국어" "license" | Out-File -Encoding UTF8NoBOM rarreg.key
+```shell
+./winrar-keygen.exe "Github" "Single PC usage license" -e ansi
+```
+
+生成 ASCII 编码的 license 并只在控制台输出：
+
+```shell
+./winrar-keygen.exe "Github" "Single PC usage license" -t -e asci
 ```
 
 </details>
 
-## 7. 无效的 Key
+## 7. 通过 Github Actions 编译使用
 
-为什么我生成的 `rarreg.key` 是无效的？
+<details>
+<summary>点击展开</summary>
 
-### 7.1 字符编码不正确
+你可以在 Actions 中构建 Linux x64、Linux ARM64、macOS ARM64、Windows x64、Windows Win32 和   Windows ARM64 六种架构的应用程序。
 
-参数 `TEXT1` 和 `TEXT2` 需要满足[对应的编码要求](#31-编码说明)：
+点击该项目右上角的 **Fork** 按钮，fork 一份代码到你的 Github。然后找到你 fork 的仓库，进入 Actions 页面并手动执行 **Build All Platforms (build.yml)**。
 
-```console
-./winrar-keygen.exe <TEXT1> <TEXT2>
-```
+> Windows 的构建耗时在 25 分钟左右，建议本地构建速度更快。
 
-具体可参考原理文档：[授权文件"rarreg.key"的生成](https://github.com/bitcookies/winrar-keygen/blob/master/README.HOW_DOES_IT_WORK.zh-CN.md#7-%E6%8E%88%E6%9D%83%E6%96%87%E4%BB%B6rarregkey%E7%9A%84%E7%94%9F%E6%88%90)
+![Build](assets/build-workflow-light.png#gh-light-mode-only)
 
-### 7.2 文本储存编码不正确
+![Build](assets/build-workflow-dark.png#gh-dark-mode-only)
 
-如果你使用了如下命令：
+运行成功之后，可在 Artifacts 下载。
+
+</details>
+
+## 8. 通过 Cmake 编译使用
+
+<details>
+<summary>Click to expand</summary>
+
+对于 Linux 或 macOS 用户，你可以[通过 Github Actions 编译使用](#7-通过-Github-Actions-编译使用)，但也可以自行编译。
+
+### 8.1 Linux (Ubuntu/Debian)
 
 ```shell
-./winrar-keygen.exe "Github" "Single PC usage license" > rarreg.key
+# 安装依赖
+sudo apt-get update
+sudo apt-get install -y build-essential cmake libgmp-dev
+
+# 编译
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . --config Release
+
+# 产物
+./winrar-keygen --help
 ```
 
-在较新的 Windows 10 / 11 系统中，PowerShell 将默认以 **UTF16-LE** 格式导出，这将会导致错误。
-
-请指定输出编码格式，例如：
+### 8.2 macOS (Homebrew)
 
 ```shell
-./winrar-keygen.exe "Github" "license" | Out-File -Encoding ascii rarreg.key
+# 安装依赖
+brew install cmake gmp
 
-./winrar-keygen.exe "Github" "license" | Out-File -Encoding ansi rarreg.key
+# 编译
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . --config Release
 
-./winrar-keygen.exe "utf8:Github" "license" | Out-File -Encoding UTF8NoBOM rarreg.key
+# 产物
+./winrar-keygen --help
 ```
 
-### 7.3 关于简体中文版
+文件生成在 `build/winrar-keygen`，版本号由 `CMakeLists.txt` 中的 `APP_VERSION` 控制。
 
-在 [__RARLAB__](https://www.rarlab.com/) 下载的简体中文版 WinRAR 将会自带广告组件，即使使用了 `rarreg.key` 授权，广告组件依旧会出现。这是由于简体中文代理商的一些意见，RARLAB 已将简体中文安装包的公开链接更换成了带有广告的简体中文安装包。
+</details>
+
+## 9. 使用 Windows GUI
+
+<details>
+<summary>Click to expand</summary>
+
+如果你正在使用 Windows 10 / 11，你可以使用 GUI 程序，它基于 .NET 8 WPF 和 Fluent Design (WPF UI) 构建，提供 `x64` 和 `ARM 64` 两种架构支持。
+
+你可以在 [gui](https://github.com/bitcookies/winrar-keygen/tree/gui) 分支中获取项目，并自行构建 GUI 程序，也可以到 [Release](https://github.com/bitcookies/winrar-keygen/releases/) 页面获取对应版本的构建程序。
+
+更详细的信息请查看分支 [README](https://github.com/bitcookies/winrar-keygen/blob/gui/README.zh-CN.md)。
+
+![GUI](assets/gui-light.png#gh-light-mode-only)
+
+![GUI](assets/gui-dark.png#gh-dark-mode-only)
+
+</details>
+
+
+## 10. 常见错误
+
+### 10.1 Keygen 错误
+
+从 `ver4` 版本开始，Keygen 增加了一些常见的 Error 提示信息，请根据输出信息来进行修正。
+
+使用 `-h` 或 `--help` 来查看帮助信息：
+
+```shell
+./winrar-keygen.exe -h
+```
+
+### 10.2 Github Actions 错误
+
+如果你使用 `ascii` 编码时发生了错误，原因是你使用了非 ASCII 字符。
+
+如果你 `ansi` 编码时发生了错误，原因是因为字符编码不受当前 Windows 系统支持。GitHub Actions 的系统平台是 `windows-2022-english` （ANSI code page 1252），包含非 ASCII 字符都会失败。
+
+### 10.3 关于简体中文版
+
+在 [**RARLAB**](https://www.rarlab.com/) 下载的简体中文版 WinRAR 将会自带广告组件，即使使用了 `rarreg.key` 授权，广告组件依旧会出现。这是由于简体中文代理商的一些意见，RARLAB 已将简体中文安装包的公开链接更换成了带有广告的简体中文安装包。
 
 感谢 [@hoochanlon](https://github.com/hoochanlon) 提供的一些方法。可以使用 [win-rar-extractor](https://github.com/lvtx/WinRAR-Extractor) 获取简体中文商业版的下载连接；也可以根据商业版的地址规律，获取相应版本的简体中文安装包：
 
@@ -368,20 +454,16 @@ https://www.rarlab.com/rar/winrar-x64-624sc.exe
 
 请注意区分上述连接地址，更多方法可以查看 [Issues #14](https://github.com/bitcookies/winrar-keygen/issues/14) 和 [Issues #19](https://github.com/bitcookies/winrar-keygen/issues/19)。
 
-## 8. 贡献
+## 11. 贡献
 
-### 8.1 反馈和建议
+### 11.1 反馈和建议
 
-如果您遇到了一些问题，可在 [Issues](https://github.com/bitcookies/winrar-keygen/issues) 页面反馈，会有很多热心的开发者及 Github 用户帮助你。
+如果您在使用过程中遇到问题或有任何建议，欢迎在 [Issues](https://github.com/bitcookies/winrar-keygen/issues) 页面反馈，或提交 Pull Request。我们以及社区中的开发者将乐于为您提供帮助。
 
-该项目欢迎贡献和建议，您可以在 [Issues](https://github.com/bitcookies/winrar-keygen/issues) 提出建议，或者进行提交拉取请求 😄
+### 11.2 感谢
 
-### 8.2 感谢
+感谢所有为本项目做出贡献的开发者，以及在 [Issues](https://github.com/bitcookies/winrar-keygen/issues) 中热心解答问题的社区成员。
 
-非常感谢一些热心的开发者，在 [Issues](https://github.com/bitcookies/winrar-keygen/issues) 帮助解答一些问题。
-
-🏆 特别感谢 [@Sonic-The-Hedgehog-LNK1123](https://github.com/Sonic-The-Hedgehog-LNK1123)
-
-## 9. 许可
+## 12. 许可
 
 使用 [MIT License](https://github.com/bitcookies/winrar-keygen/blob/master/LICENSE)
